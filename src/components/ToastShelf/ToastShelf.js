@@ -6,18 +6,7 @@ import styles from "./ToastShelf.module.css";
 import { ToastContext } from "../ToastProvider";
 
 function ToastShelf() {
-  const { toasts, clearToasts } = React.useContext(ToastContext);
-  React.useEffect(() => {
-    const dismissAllToasts = ({ code }) => {
-      if (code === "Escape") {
-        clearToasts();
-      }
-    };
-
-    window.addEventListener("keyup", dismissAllToasts);
-
-    return () => window.removeEventListener("keyup", dismissAllToasts);
-  }, []);
+  const { toasts } = React.useContext(ToastContext);
 
   return (
     <ol

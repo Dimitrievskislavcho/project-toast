@@ -1,4 +1,5 @@
 import React from "react";
+import useEscapeKey from "../../hooks/useEscapeKey";
 
 export const ToastContext = React.createContext();
 
@@ -23,10 +24,11 @@ function ToastProvider({ children }) {
     return {
       toasts,
       addNewToast,
-      removeToastWithId,
-      clearToasts
+      removeToastWithId
     };
   }, [toasts]);
+
+  useEscapeKey(clearToasts);
 
   return (
     <ToastContext.Provider value={contextValue}>
