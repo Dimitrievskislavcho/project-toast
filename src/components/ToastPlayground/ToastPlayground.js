@@ -1,7 +1,7 @@
 import React from "react";
 
 import Button from "../Button";
-import Toast from "../Toast";
+import ToastShelf from "../ToastShelf";
 
 import styles from "./ToastPlayground.module.css";
 
@@ -16,10 +16,13 @@ function ToastPlayground() {
   const showToast = (event) => {
     event.preventDefault();
 
-    setToasts([{ message, variant: selectedVariant, id: crypto.randomUUID() }]);
+    setToasts([
+      ...toasts,
+      { message, variant: selectedVariant, id: crypto.randomUUID() },
+    ]);
   };
-  const hideToast = (_) => {
-    setToasts([]);
+  const hideToast = (idForHiding) => {
+    setToasts(toasts.filter((toast) => toast.id !== idForHiding));
   };
 
   return (
@@ -29,14 +32,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {toasts.map((toast) => (
-        <Toast
-          key={toast.id}
-          variant={selectedVariant}
-          content={message}
-          onDismiss={hideToast}
-        ></Toast>
-      ))}
+      <ToastShelf toasts={toasts} hideToast={hideToast}></ToastShelf>
 
       <form className={styles.controlsWrapper} onSubmit={showToast}>
         <div className={styles.row}>
