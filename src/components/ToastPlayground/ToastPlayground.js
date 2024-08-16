@@ -32,6 +32,8 @@ function ToastPlayground() {
             variant: selectedVariant,
             id: crypto.randomUUID(),
           });
+          setMessage("");
+          setSelectedVariant(VARIANT_OPTIONS[0]);
         }}
       >
         <div className={styles.row}>

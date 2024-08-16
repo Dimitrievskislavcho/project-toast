@@ -11,22 +11,22 @@ function ToastProvider({ children }) {
   };
   function removeToastWithId(removedToastId) {
     const filteredToasts = toasts.filter(({ id }) => {
-      console.log({ id, removedToastId })
-
       return id !== removedToastId
     });
     setToasts(filteredToasts);
   };
+  function clearToasts() {
+    setToasts([]);
+  }
 
   const contextValue = React.useMemo(() => {
     return {
       toasts,
       addNewToast,
       removeToastWithId,
+      clearToasts
     };
   }, [toasts]);
-
-  console.log(contextValue)
 
   return (
     <ToastContext.Provider value={contextValue}>

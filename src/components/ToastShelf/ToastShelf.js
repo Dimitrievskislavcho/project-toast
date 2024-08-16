@@ -6,7 +6,18 @@ import styles from "./ToastShelf.module.css";
 import { ToastContext } from "../ToastProvider";
 
 function ToastShelf() {
-  const { toasts } = React.useContext(ToastContext);
+  const { toasts, clearToasts } = React.useContext(ToastContext);
+  React.useEffect(() => {
+    const dismissAllToasts = ({ code }) => {
+      if (code === "Escape") {
+        clearToasts()
+      }
+    };
+
+    window.addEventListener("keyup", dismissAllToasts);
+
+    return () => window.removeEventListener("keyup", dismissAllToasts);
+  }, [toasts]);
 
   return (
     <ol className={styles.wrapper}>
@@ -21,4 +32,4 @@ function ToastShelf() {
   );
 }
 
-export default ToastShelf;
+export default React.memo(ToastShelf);
