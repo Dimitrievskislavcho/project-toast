@@ -10,17 +10,22 @@ function ToastShelf() {
   React.useEffect(() => {
     const dismissAllToasts = ({ code }) => {
       if (code === "Escape") {
-        clearToasts()
+        clearToasts();
       }
     };
 
     window.addEventListener("keyup", dismissAllToasts);
 
     return () => window.removeEventListener("keyup", dismissAllToasts);
-  }, [toasts]);
+  }, []);
 
   return (
-    <ol className={styles.wrapper}>
+    <ol
+      role="region"
+      aria-live="polite"
+      aria-label="Notification"
+      className={styles.wrapper}
+    >
       {toasts.map(({ message, variant, id }) => (
         <li key={id} className={styles.toastWrapper}>
           <Toast variant={variant} id={id}>
