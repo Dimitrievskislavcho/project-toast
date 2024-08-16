@@ -1,6 +1,7 @@
 import React from "react";
 
 import Button from "../Button";
+import Toast from "../Toast";
 
 import styles from "./ToastPlayground.module.css";
 
@@ -11,9 +12,14 @@ function ToastPlayground() {
   const [selectedVariant, setSelectedVariant] = React.useState(
     VARIANT_OPTIONS[0]
   );
+  const [toasts, setToasts] = React.useState([]);
   const showToast = (event) => {
     event.preventDefault();
-    window.alert(JSON.stringify({ message, selectedVariant }));
+
+    setToasts([{ message, variant: selectedVariant, id: crypto.randomUUID() }]);
+  };
+  const hideToast = (_) => {
+    setToasts([]);
   };
 
   return (
@@ -22,6 +28,15 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
+
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          variant={selectedVariant}
+          content={message}
+          onDismiss={hideToast}
+        ></Toast>
+      ))}
 
       <form className={styles.controlsWrapper} onSubmit={showToast}>
         <div className={styles.row}>
@@ -46,7 +61,7 @@ function ToastPlayground() {
           <div className={styles.label}>Variant</div>
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
             {VARIANT_OPTIONS.map((variant) => (
-              <label htmlFor={variant}>
+              <label key={variant} htmlFor={variant}>
                 <input
                   id={variant}
                   type="radio"
